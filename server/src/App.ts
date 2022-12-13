@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
+import Controller from "./controllers/Controller.js";
 
 // тип с данными для подключения к DB
 type TDB = {
@@ -24,12 +25,13 @@ export default class App {
      * @param port порт сервера
      * @param db данные для подключения базы данных
      */
-    constructor(port: number, db: TDB) {
+    constructor(port: number, db: TDB, controllers?: Controller[]) {
         this.app = express();
         this.port = port;
         this.db = db;
 
         this.initializeMiddlewares();
+        this.initializeControllers(controllers);
     }
 
     // добавление промежуточной обработки к запросам
@@ -43,6 +45,15 @@ export default class App {
         await mongoose.connect(
             `mongodb+srv://${user}:${password}@cluster0.calnqrn.mongodb.net/${name}`
         );
+    }
+
+    // развертывание контролеров
+    private initializeControllers(controllers?: Controller[]): void {
+        if (controllers != undefined && controllers?.length > 0) {
+            controllers?.forEach(controller => {
+                this.app.use(`/api/${controller.path}`, controller.router)
+            });
+        }
     }
 
     // запуск сервера и отслеживание запросов

@@ -21,7 +21,8 @@ const app: App = new App(
         user: DB_USER,
         password: DB_PASSWORD,
         name: DB_NAME
-    }
+    },
+    []
 );
 
 // Старт приложения
