@@ -2,7 +2,7 @@ import { Schema, model, Types } from "mongoose";
 
 interface IUser {
   username: string;
-  accessKey: string;
+//   accessKey: string;
   password: string;
   profs?: Types.ObjectId[];
   avatar?: string;
@@ -12,7 +12,7 @@ interface IUser {
 
 const userSchema = new Schema<IUser>({
   username: { type: String, required: false, unique: true },
-  accessKey: { type: String, required: true, unique: true },
+//   accessKey: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   profs: [{type: Schema.Types.ObjectId, ref: "Prof"}],
   avatar: {type: String},
